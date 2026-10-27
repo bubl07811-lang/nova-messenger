@@ -25,7 +25,7 @@ from werkzeug.exceptions import HTTPException
 from werkzeug.security import generate_password_hash as gph, check_password_hash as cph
 
 # ───────── НАСТРОЙКИ ─────────
-HOST, PORT = "127.0.0.1", 5000  # 0.0.0.0 = зайти могут и другие устройства по ссылке
+HOST, PORT = "0.0.0.0", int(os.environ.get("PORT", 5000))  # 0.0.0.0 = зайти могут и другие устройства по ссылке
 NGROK_TOKEN = ""  # (необязательно) токен с ngrok.com + pip install pyngrok -> публичная ссылка для всего интернета
 ADMINS = []  # ники людей-модераторов, получают апелляции, напр. ["MyNick"]; пусто = апелляции проверяются автоматически
 SMS_CODE = "12345"  # код подтверждения при РЕГИСТРАЦИИ обычного номера
@@ -2999,8 +2999,3 @@ if __name__ == "__main__":
     else:
         print(" Хочешь ссылку для всего интернета? Впиши NGROK_TOKEN вверху файла.")
     print("=" * 56)
-    try:
-        threading.Timer(1.5, lambda: webbrowser.open("http://127.0.0.1:%d" % PORT)).start()
-    except Exception:
-        pass
-    app.run(host=HOST, port=PORT, threaded=True)
